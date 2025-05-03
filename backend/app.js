@@ -8,7 +8,8 @@ import helmet from "helmet";
 import morgan from "morgan";
 import path from "path";
 import { fileURLToPath } from "url";
-import { register } from "./controllers/auth.js";
+import authRoutes from "./routes/authRouter.js";
+import { register } from "./controllers/authController.js";
 
 
 // middleware config
@@ -44,16 +45,17 @@ const storage = multer.diskStorage({
 const upload = multer({ storage }); // easy file upload setup
 
 
-// routes with files
+// routes with files (because i need the local upload object)
 app.post("/auth/register", upload.single("picture"), register); //
 
-
+// other routes
+app.use("/auth", authRoutes);
 
 // database setup
-var mongoDB = "mongodb://127.0.0.1/vaja4myProject";
+const mongoDB = "mongodb://127.0.0.1/vaja4myProject";
 mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;
-var db = mongoose.connection;
+const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 const PORT = process.env.PORT || 6001;
