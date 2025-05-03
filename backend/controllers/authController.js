@@ -33,22 +33,22 @@ export const login = async (req, res) => {
     try {
         const {email, password} = req.body;
 
-        const user = await user.findOne({ email: email });
+        const currentUser = await user.findOne({ email: email });
 
-        if (!user) {
+        if (!currentUser) {
             return res.status(400).json({ msg: "User does not exist." });
         }
 
 
-        const isMatched = await bcrypt.compare(password, user.password);
+        const isMatched = await bcrypt.compare(password, currentUser.password);
         if (!isMatched) {
             return res.status(400).json({ msg: "Invalid credentials" });
         }
 
-        const token = jwt.sign({ id: user._id }, process.env.JWR_SECRET);
-        delete user.password;
+        const token = jwt.sign({ id: currentUser._id }, process.env.JWR_SECRET);
+        delete currentUser.password;
 
-        res.status(201).json({ token, user });
+        res.status(201).json({ token, currentUser });
 
     } catch (err) {
         res.status(500).json({ error: err.message });

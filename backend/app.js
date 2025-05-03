@@ -9,7 +9,11 @@ import morgan from "morgan";
 import path from "path";
 import { fileURLToPath } from "url";
 import authRoutes from "./routes/authRouter.js";
+import userRoutes from "./routes/userRouter.js";
+import postsRoutes from "/routes/postsRouter.js";
 import { register } from "./controllers/authController.js";
+import { verifyToken } from "./middleware/authMiddleware.js";
+import { createPost } from "./controllers/postsController.js";
 
 
 // middleware config
@@ -46,10 +50,13 @@ const upload = multer({ storage }); // easy file upload setup
 
 
 // routes with files (because i need the local upload object)
-app.post("/auth/register", upload.single("picture"), register); //
+app.post("/auth/register", upload.single("picture"), register); 
+app.post("/posts", verifyToken, upload.single("picture"), createPost);
 
 // other routes
 app.use("/auth", authRoutes);
+app.use("/users", userRoutes);
+app.use("/posts", postsRoutes);
 
 // database setup
 const mongoDB = "mongodb://127.0.0.1/vaja4myProject";
