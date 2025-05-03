@@ -1,4 +1,4 @@
-import user from "../models/userModel";
+import user from "../models/userModel.js";
 
 
 // getting user data
@@ -10,7 +10,7 @@ export const getUser = async (req, res) => {
 
         const currentUser = await user.findById(id);
 
-        res.status(200).json(user);
+        res.status(200).json(currentUser);
 
     } catch (err) {
 

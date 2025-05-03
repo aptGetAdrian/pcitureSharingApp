@@ -11,7 +11,7 @@ router.get("/:id/friends", verifyToken, getUserFriends);
 
 
 // updating user data
-router.patch(":/id/:friendId", verifyToken, addRemoveFriend);
+router.patch("/:id/:friendId", verifyToken, addRemoveFriend);
 
 
 
