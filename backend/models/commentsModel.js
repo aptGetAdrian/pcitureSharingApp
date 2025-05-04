@@ -5,9 +5,6 @@ const commentsSchema = new mongoose.Schema({
     author: { type: mongoose.Schema.Types.ObjectId, ref: 'user' }, 
     createdAt: { type: Date, default: Date.now },
     post: { type: mongoose.Schema.Types.ObjectId, ref: 'post' }, 
-    subComments: [
-      { type: mongoose.Schema.Types.ObjectId, ref: 'subComment' }
-    ]
 });
 
 const comment = mongoose.model('comment', commentsSchema);
